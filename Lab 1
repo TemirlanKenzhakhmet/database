@@ -1,0 +1,13 @@
+Lab 1. 
+1.1)	Project id, person_name(select company_name = “BigBank”(works))
+1.2)	Project id, person_name, city(select employee.id = works.id /\ works.company_name = “BigBank”(employee x works))
+1.3)	Project id, person_name, street, city(select employee.id = works.id /\ works.company_name = “BigBank” /\ works.salary > 10000(employee x works))
+1.4)	Project id, person_name(select employee.city = company.city /\ employee.id = works.id /\ works.company_name = company.company_name(employee x works x company))
+
+2.1) Project id, person_name(select company_name != “BigBank”(works))
+2.2) Project id, person_name(select AVG(salary) from works)
+
+3) inserting (“15555”, “Khan”, “Anatomy”, “150000”) to the “instructor” relation will violate foreign key constraints
+Deleting (“Physics”, “Watson”, “70000”) from the “department” relation will also violate foreign key constraints
+
+4) Id, if there is no “id” attribute, the primary key may be person_name
