@@ -1,0 +1,120 @@
+CREATE TABLE Employees(
+  ID int primary key NOT NULL,
+  Name varchar(30),
+  Birthday date,
+  Email varchar(30),
+  Position varchar(30),
+  Department varchar(30),
+  salary int
+);
+
+truncate table Employees;
+
+alter table Employees add surname varchar(30);
+
+drop table Employees;
+
+
+insert into Employees
+    values ('123141', 'Johny', '02.08.11', 'iwgowy@mail.com', 'instructor', 'Music', '70000');
+
+update Employees
+set salary = case
+    when salary <= 60000 then salary * 1.09
+    else salary * 1.04
+end;
+
+delete from Employees
+where Name in (select Name
+    from Employees
+    where Name = 'Johny');
+
+select Department, avg(salary) as avg_salary
+from Employees
+group by Department
+having avg(salary) >= 100000;
+
+
+
+
+create table customers (
+    id int primary key unique,
+    full_name varchar(50) not null,
+    timestamp timestamp not null,
+    deliver_address text not null
+);
+
+create table products (
+    id varchar primary key unique,
+    name varchar unique,
+    description text not null,
+    price double precision not null check(price > 0)
+);
+
+create table orders (
+    code int primary key unique,
+    customer_id int not null,
+    total_sum double precision not null check(total_sum > 0),
+    is_paid boolean not null,
+    foreign key(customer_id) references customers(id)
+);
+
+create table order_items (
+    order_code int primary key unique,
+    product_id varchar primary key unique,
+    quantity int not null check(quantity > 0),
+    foreign key(order_code) references orders(code),
+    foreign key(product_id) references products(id)
+);
+
+
+
+
+create table students (
+    Id int primary key unique,
+    full_name nvarchar(30) not null,
+    age smallint,
+    birth_date date not null,
+    gender char(6)
+);
+
+create table info_about_std (
+    id int unique,
+    avg_grade int,
+    info_about_yours text not null,
+    dorm boolean,
+    add_info text,
+    foreign key(id) references students(id)
+);
+
+
+create table instructors (
+    ins_id int primary key unique,
+    full_name nvarchar(30) not null,
+    speak_lang text not null,
+    work_exp int not null,
+    poss_rem_less boolean
+);
+
+
+create table participant (
+    lesson_title varchar(30) not null,
+    teach_inst nvarchar(30) references instructors(ins_id),
+    student nvarchar(30) references students(Id),
+    room_number tinyint not null
+);
+
+
+
+
+delete from products
+where price between 100 and 200;
+
+insert into orders
+values('1565464', '123123', '150350.5', 'true')
+
+update products
+set price = case
+    when price <= 300 then price = 350
+    else price
+end 
