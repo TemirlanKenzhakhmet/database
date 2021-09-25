@@ -72,7 +72,7 @@ create table order_items (
 
 create table students (
     Id int primary key unique,
-    full_name nvarchar(30) not null,
+    full_name varchar(30) not null,
     age smallint,
     birth_date date not null,
     gender char(6)
@@ -90,7 +90,7 @@ create table info_about_std (
 
 create table instructors (
     ins_id int primary key unique,
-    full_name nvarchar(30) not null,
+    full_name varchar(30) not null,
     speak_lang text not null,
     work_exp int not null,
     poss_rem_less boolean
@@ -99,9 +99,9 @@ create table instructors (
 
 create table participant (
     lesson_title varchar(30) not null,
-    teach_inst nvarchar(30) references instructors(ins_id),
-    student nvarchar(30) references students(Id),
-    room_number tinyint not null
+    teach_inst varchar(30) references instructors(ins_id),
+    student varchar(30) references students(Id),
+    room_number smallint not null
 );
 
 
@@ -111,10 +111,10 @@ delete from products
 where price between 100 and 200;
 
 insert into orders
-values('1565464', '123123', '150350.5', 'true')
+values('1565464', '123123', '150350.5', 'true');
 
 update products
 set price = case
     when price <= 300 then price = 350
     else price
-end 
+end
