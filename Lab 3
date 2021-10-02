@@ -1,0 +1,115 @@
+select *
+from course
+where credits > 3;
+
+select *
+from classroom
+where building = 'Watson' or building = 'Packard';
+
+select course_id, title
+from course
+where dept_name = 'Comp. Sci.';
+
+select course.course_id, title
+from course, section
+where course.course_id = section.course_id and semester = 'Fall';
+
+select id, name, dept_name
+from student
+where tot_cred between 45 and 90;
+
+select name
+from student
+where name like '%a'
+    or name like '%e'
+    or name like '%i'
+    or name like '%o'
+    or name like '%u';
+
+select course.course_id, title
+from course, prereq
+where course.course_id = prereq.course_id and prereq_id = 'CS-101';
+
+
+
+
+select dept_name, avg(salary) as avg_salary
+from instructor
+group by dept_name
+order by avg(salary);
+
+select distinct building,
+        (select count(*)
+        from course, department
+        where course.dept_name = department.dept_name and department.building = section.building) as tot_count
+from section
+order by tot_count desc limit 1;
+
+select distinct building,
+        (select count(*)
+        from course, department
+        where course.dept_name = department.dept_name and department.building = section.building) as tot_count
+from section
+order by tot_count desc limit 1;
+
+select distinct dept_name,
+        (select count(*)
+        from course, section
+        where course.course_id = section.course_id and department.dept_name = course.dept_name) as tot_count
+from department
+order by tot_count asc limit 1;
+
+select distinct student.id, name
+from student
+where 3 < (select count(*)
+           from takes, course
+           where student.id = takes.id and takes.course_id = course.course_id
+                                       and course.dept_name = 'Comp. Sci.');
+
+select *
+from instructor
+where dept_name in ('Biology', ' Philosophy', 'Music');
+
+select distinct id
+from teaches
+where year = 2018 and id not in (select id
+                                from teaches
+                                where year = 2017);
+
+
+
+
+select student.id, name
+from student, takes,course
+where takes.course_id = course.course_id
+    and takes.id = student.id
+    and takes.grade in ('A', 'A-')
+    and course.dept_name = 'Comp. Sci.'
+order by name;
+
+select distinct instructor.name
+from instructor, student, takes, advisor
+where instructor.id = i_id
+    and student.id = s_id
+    and takes.grade in ('B-', 'C+', 'C', 'C-', 'F', null);
+
+select distinct dept_name
+from course
+where dept_name not in (select dept_name
+                        from takes, course
+                        where takes.course_id = course.course_id
+                        and takes.grade in ('F', 'C-', 'C', 'C+'));
+
+select distinct name
+from instructor
+where name not in (select name
+                        from takes, instructor, teaches
+                        where takes.course_id = teaches.course_id
+                        and teaches.id = instructor.id
+                        and takes.grade in ('A', 'A-'));
+
+select distinct course.course_id
+from course, section, time_slot
+where section.time_slot_id = time_slot.time_slot_id
+    and course.course_id = section.course_id
+    and time_slot.end_hr < 13;
