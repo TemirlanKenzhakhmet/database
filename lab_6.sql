@@ -44,6 +44,9 @@ create view unique_client as
     select date, count(distinct client_id), avg(amount), sum(amount)
     from sell
     group by date;
+   
+select * from unique_client;
+drop view unique_client;
 
 -- b
 create view top as
@@ -53,11 +56,17 @@ create view top as
     order by total desc
     limit 5;
 
+select * from top;
+drop view top;
+
 -- c
 create view total_sales as
     select d.id, count(amount) as num_sales, avg(amount) as avg_sales, sum(amount) as tot_sales
     from sell join dealer d on dealer_id = d.id
     group by d.id;
+    
+select * from total_sales;
+drop view total_sales;
 
 -- d
 create view dealers_charge as
@@ -65,20 +74,32 @@ create view dealers_charge as
     from total_sales, dealer d
     where total_sales.id = d.id;
 
+select * from dealers_charge;
+drop view dealers_charge;
+
 -- e
-create view total_expenses_in_city as
+create view total_sales_in_location as
     select location, count(amount) as num_sales, avg(amount) as avg_sales, sum(amount) as tot_sales
     from dealer d join sell on dealer_id = d.id
     group by location;
+
+select * from total_sales_in_location;
+drop view total_sales_in_location;
 
 -- f
 create view total_expenses_in_city as
     select city, count(amount) as num_sales, avg(amount) as avg_expenses, sum(amount) as tot_expenses
     from client join sell s on client.id = s.client_id
     group by city;
+    
+select * from total_expenses_in_city;
+drop view total_expenses_in_city;
 
 -- g
 create view cities as
     select city
     from total_expenses_in_city full outer join total_sales_in_location on city = location
     where tot_expenses > tot_sales or tot_sales is null;
+   
+select * from cities;
+drop view cities;
